@@ -1,0 +1,114 @@
+class ABR:
+    def __init__(self, racine=0, gauche=None, droite=None):
+        self.racine = racine
+        self.gauche = gauche
+        self.droite = droite
+
+    def get_racine(self):
+        return self.racine
+    
+    def set_racine(self, racine):
+        self.racine = racine
+
+    def get_gauche(self):
+        return self.gauche
+    
+    def set_gauche(self, gauche):
+        self.gauche = gauche
+    
+    def get_droite(self):
+        return self.droite
+    
+    def set_droite(self, droite):
+        self.droite = droite
+
+    def estvide(self):
+        if self.racine == 0:
+         return True 
+        else:
+            return False 
+
+    def prefixe(self):
+        if (self.estvide()):
+            return ""
+        else:
+            if self.gauche == None and self.droite == None:
+                return str(self.racine)
+            elif self.gauche == None:
+                return str(self.racine) +" " +self.droite.prefixe()
+            elif self.droite == None:
+                return str(self.racine) + " "+self.gauche.prefixe()
+
+            else :
+                return str(self.racine) + " "+self.gauche.prefixe()+" " +self.droite.prefixe()
+
+    def postfixe(self):
+        if(self.estvide()):
+            return ""
+        else:
+            if self.gauche == None and self.droite == None:
+                return str(self.racine)
+            elif self.gauche == None:
+                return self.droite.postfixe()+" " + str(self.racine)
+            elif self.droite == None:
+                return str(self.racine) + " "+self.gauche.postfixe()
+            else :
+                return self.gauche.postfixe()+" " +self.droite.postfixe()+" " +str(self.racine)
+                
+    def infixe(self):
+        if(self.estvide()):
+            return ""
+        else:
+            if self.gauche == None and self.droite == None:
+                return str(self.racine)
+            elif self.gauche == None:
+                return str(self.racine) +" " + self.droite.infixe()
+            elif self.droite == None:
+                return self.gauche.infixe()+" "+ str(self.racine) 
+            else :
+                return self.gauche.infixe()+" " +str(self.racine)+" " +self.droite.infixe()
+    def taille(self):
+        if(self.estvide()):
+            return 0
+        else:
+            if self.gauche == None and self.droite == None:
+                return 1
+            elif self.gauche == None:
+                return 1+self.droite.taille()
+            elif self.droite == None:
+                return 1+self.gauche.taille()
+            else:
+                return 1+self.gauche.taille()+self.droite.taille()
+
+    def hauteur(self):
+        if(self.estvide()):
+            return -1 
+        else:
+            if self.gauche == None and self.droite == None:
+                return 0
+            elif self.gauche == None:
+                return 1 + self.droite.hauteur()
+            elif self.droite == None:
+                return 1+ self.gauche.hauteur()
+            
+            else:
+                if self.droite.hauteur() > self.gauche.hauteur():
+                    return 1+ self.droite.hauteur()
+
+                else:
+                    return 1 + self.gauche.hauteur()
+
+
+
+A1 = ABR(5,None,None)
+A2 = ABR(9,None,None)
+A3 = ABR(8,A1,A2)
+A4 = ABR(9,A3,A3)
+
+
+print(A3.prefixe())
+print(A3.postfixe())
+print(A3.infixe())
+print(A3.taille())
+print(A4.hauteur())
+    
